@@ -8,13 +8,12 @@ const HrLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Create animated particles
     const createParticles = () => {
       const particlesContainer = document.getElementById("particles");
       if (!particlesContainer) return;
 
       const particleCount = 50;
-      particlesContainer.innerHTML = ""; // Clear existing particles
+      particlesContainer.innerHTML = "";
 
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement("div");
@@ -52,13 +51,11 @@ const HrLogin = () => {
       const data = await response.json();
 
       if (data.success) {
-        // Store employee data in localStorage
         localStorage.setItem("employeeData", JSON.stringify(data.employee));
 
         setNotificationMessage("Login Successful");
         setShowNotification(true);
 
-        // Redirect to appropriate dashboard after 2 seconds
         setTimeout(() => {
           window.location.href = data.redirectTo;
         }, 2000);
@@ -86,10 +83,8 @@ const HrLogin = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-slate-900 to-blue-900 text-white overflow-x-hidden">
-      {/* Animated background particles */}
       <div id="particles" className="fixed top-0 left-0 w-full h-full pointer-events-none z-0" />
 
-      {/* Custom CSS for particle animation */}
       <style jsx>{`
         @keyframes float {
           0% {
@@ -145,7 +140,6 @@ const HrLogin = () => {
         }
       `}</style>
 
-      {/* Notification */}
       {showNotification && (
         <div
           className={`fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ${
@@ -169,7 +163,6 @@ const HrLogin = () => {
         </div>
       )}
 
-      {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center text-center px-8 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-6xl md:text-7xl font-bold mb-6 glow-text">Next-Gen HR Management</h1>
@@ -178,16 +171,12 @@ const HrLogin = () => {
             Resources today.
           </p>
         </div>
-        <button
-          onClick={scrollToLogin}
-          className="absolute bottom-8 left-1/2 text-cyan-400 cursor-pointer hover:text-cyan-300 transition-colors scroll-bounce"
-        >
+        <button onClick={scrollToLogin} className="absolute bottom-8 left-1/2 text-cyan-400 cursor-pointer hover:text-cyan-300 transition-colors scroll-bounce">
           <div className="text-4xl mb-2">↓</div>
           <div className="text-sm">Scroll to explore</div>
         </button>
       </section>
 
-      {/* Login Section */}
       <section id="login-section" className="min-h-screen flex items-center justify-center px-8 relative z-10">
         <div className="bg-black/50 backdrop-blur-xl border border-cyan-400/30 rounded-3xl p-8 md:p-12 max-w-md w-full shadow-2xl">
           <div className="text-center mb-8">

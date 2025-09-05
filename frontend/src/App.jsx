@@ -8,7 +8,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Redirect / to /login */}
         <Route path="/" element={<Navigate to="/login" />} />
 
         <Route path="/login" element={<HrLogin />} />
@@ -16,7 +15,6 @@ function App() {
         <Route path="/adminDashboard" element={<AdminDashboard />} />
         <Route path="/managerDashboard" element={<ManagerDashboard />} />
 
-        {/* Optional: catch-all route to handle 404 */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>

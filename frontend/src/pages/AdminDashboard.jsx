@@ -37,11 +37,9 @@ const AdminDashboard = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  // API base URL
   const API_BASE = "http://localhost:1490/api";
   const navigate = useNavigate();
 
-  // Load user info from localStorage
   useEffect(() => {
     const employeeData = localStorage.getItem("employeeData");
     if (employeeData) {
@@ -56,16 +54,14 @@ const AdminDashboard = () => {
         });
       } catch (error) {
         console.error("Error parsing employee data:", error);
-        // Redirect to login if data is corrupted
+
         navigate("/login");
       }
     } else {
-      // Redirect to login if no user data found
       navigate("/login");
     }
   }, [navigate]);
 
-  // Fetch employees from backend
   const fetchEmployees = async () => {
     try {
       const response = await fetch(`${API_BASE}/employees`);
@@ -83,7 +79,6 @@ const AdminDashboard = () => {
     }
   };
 
-  // Update date and time
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
@@ -102,13 +97,11 @@ const AdminDashboard = () => {
     updateDateTime();
     const interval = setInterval(updateDateTime, 1000);
 
-    // Fetch employees on component mount
     fetchEmployees();
 
     return () => clearInterval(interval);
   }, []);
 
-  // Filter employees based on search query
   const filteredEmployees = employees.filter((employee) => {
     const searchLower = searchQuery.toLowerCase();
     return (
@@ -142,7 +135,6 @@ const AdminDashboard = () => {
         },
       };
 
-      // Remove individual address fields
       delete employeeData.street;
       delete employeeData.city;
       delete employeeData.state;
@@ -161,7 +153,6 @@ const AdminDashboard = () => {
       if (response.ok) {
         showAdvancedNotification("✅ Employee added successfully!", "success");
 
-        // Reset form
         setNewEmployee({
           firstName: "",
           lastName: "",
@@ -179,7 +170,6 @@ const AdminDashboard = () => {
           shift: "day",
         });
 
-        // Refresh employee list
         fetchEmployees();
       } else {
         showAdvancedNotification("Error adding employee: " + data.message, "error");
@@ -211,7 +201,6 @@ const AdminDashboard = () => {
         showAdvancedNotification("✅ Shift updated successfully!", "success");
         setShiftUpdate({ id: "", shift: "day" });
 
-        // Refresh employee list
         fetchEmployees();
       } else {
         showAdvancedNotification("Error updating shift: " + data.message, "error");
@@ -249,7 +238,7 @@ const AdminDashboard = () => {
 
       if (allOk) {
         showAdvancedNotification("✅ Payroll completed successfully for all employees!", "success");
-        fetchEmployees(); // Re-fetch employees to get updated data (e.g., reset workedHours)
+        fetchEmployees();
       } else {
         showAdvancedNotification("Error processing payroll for some employees.", "error");
       }
@@ -273,7 +262,7 @@ const AdminDashboard = () => {
 
       if (response.ok) {
         showAdvancedNotification(`✅ Reports generated for ${data.count} employees!`, "success");
-        fetchEmployees(); // Re-fetch data if needed
+        fetchEmployees();
       } else {
         showAdvancedNotification("Error generating reports: " + data.message, "error");
       }
@@ -285,14 +274,13 @@ const AdminDashboard = () => {
 
   const handleLogout = () => {
     showAdvancedNotification("👋 Logging out...", "info");
-    // Clear user data from localStorage
+
     localStorage.removeItem("employeeData");
     setTimeout(() => {
       navigate("/login");
     }, 1500);
   };
 
-  // Advanced notification system
   const showAdvancedNotification = (message, type) => {
     const colors = {
       success: "from-emerald-500 to-teal-600",
@@ -301,7 +289,6 @@ const AdminDashboard = () => {
       warning: "from-yellow-500 to-orange-600",
     };
 
-    // Create notification element
     const notification = document.createElement("div");
     notification.className = `fixed top-4 right-4 z-50 p-4 rounded-2xl text-white shadow-2xl transform transition-all duration-500 ease-out translate-x-full opacity-0 bg-gradient-to-r ${colors[type]} border border-white/20 backdrop-blur-xl`;
     notification.innerHTML = `
@@ -342,12 +329,10 @@ const AdminDashboard = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white min-h-screen overflow-x-hidden">
-      {/* Floating Background Orbs */}
       <FloatingOrb className="top-10 left-10 w-32 h-32 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full blur-3xl opacity-60 animate-pulse" />
       <FloatingOrb className="top-20 right-15 w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-2xl opacity-60 animate-bounce" />
       <FloatingOrb className="bottom-15 left-20 w-40 h-40 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-3xl opacity-60" />
 
-      {/* Header */}
       <header className="relative z-10 bg-slate-800/80 backdrop-blur-lg border-b border-gray-700/50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
@@ -387,9 +372,7 @@ const AdminDashboard = () => {
         </div>
       </header>
 
-      {/* Main Container */}
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {/* Welcome Hero Section */}
         <section className="bg-slate-800/80 backdrop-blur-lg rounded-3xl p-8 border border-slate-700/50 hover:scale-[1.02] transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
             <div className="space-y-2">
@@ -427,7 +410,6 @@ const AdminDashboard = () => {
           </div>
         </section>
 
-        {/* Action Buttons */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <button
             onClick={handleStartPayroll}
@@ -460,7 +442,6 @@ const AdminDashboard = () => {
           </button>
         </section>
 
-        {/* Add Employee Form */}
         <section className="bg-slate-800/80 backdrop-blur-lg rounded-3xl p-8 border border-slate-700/50 hover:scale-[1.01] transition-all duration-300">
           <div className="flex items-center space-x-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center">
@@ -653,7 +634,6 @@ const AdminDashboard = () => {
           </form>
         </section>
 
-        {/* Employee List */}
         <section className="bg-slate-800/80 backdrop-blur-lg rounded-3xl p-8 border border-slate-700/50 hover:scale-[1.01] transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 flex items-center space-x-3">
@@ -678,7 +658,6 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Search Bar */}
           <div className="mb-6">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -750,7 +729,6 @@ const AdminDashboard = () => {
           </div>
         </section>
 
-        {/* Shift Management */}
         <section className="bg-slate-800/80 backdrop-blur-lg rounded-3xl p-8 border border-slate-700/50 hover:scale-[1.01] transition-all duration-300">
           <div className="flex items-center space-x-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 flex items-center justify-center">

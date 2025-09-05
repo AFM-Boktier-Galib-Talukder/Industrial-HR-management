@@ -35,7 +35,6 @@ const ManagerDashboard = () => {
   const API_BASE_URL = "http://localhost:1490/api";
   const navigate = useNavigate();
 
-  // Load user info from localStorage
   useEffect(() => {
     const employeeData = localStorage.getItem("employeeData");
     if (employeeData) {
@@ -50,11 +49,10 @@ const ManagerDashboard = () => {
         });
       } catch (error) {
         console.error("Error parsing employee data:", error);
-        // Redirect to login if data is corrupted
+
         navigate("/login");
       }
     } else {
-      // Redirect to login if no user data found
       navigate("/login");
     }
   }, [navigate]);
@@ -79,7 +77,6 @@ const ManagerDashboard = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Fetch employees from backend
   useEffect(() => {
     fetchEmployees();
     fetchLeaveRequests();
@@ -93,7 +90,6 @@ const ManagerDashboard = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Transform backend data to match frontend structure
         const transformedEmployees = data.employees.map((emp) => ({
           id: emp._id,
           firstName: emp.firstName,
@@ -103,10 +99,9 @@ const ManagerDashboard = () => {
           employmentType: emp.employmentType || "general_employee",
           salary: emp.salary || 0,
           shift: emp.shift || "day",
-          tasks: [], // Tasks will be fetched separately
+          tasks: [],
         }));
 
-        // Fetch tasks for each employee
         const employeesWithTasks = await Promise.all(
           transformedEmployees.map(async (employee) => {
             try {
@@ -140,8 +135,6 @@ const ManagerDashboard = () => {
     }
   };
 
-  // In ManagerDashboard.jsx
-
   const fetchLeaveRequests = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/leave`);
@@ -166,8 +159,6 @@ const ManagerDashboard = () => {
       console.error("Error fetching leave requests:", error);
     }
   };
-
-  // In ManagerDashboard.jsx
 
   const fetchOvertimeRequests = async () => {
     try {
@@ -244,7 +235,7 @@ const ManagerDashboard = () => {
 
       if (response.ok) {
         showAdvancedNotification(data.message || "Performance score updated successfully", "success");
-        // Reset the form
+
         setPerformanceReview({
           employeeId: "",
           q1: 5,
@@ -317,7 +308,7 @@ const ManagerDashboard = () => {
           employeeId: "",
           tasks: [{ description: "", deadline: "", priority: "medium" }],
         });
-        // Refresh employees to show updated tasks
+
         fetchEmployees();
       } else {
         showAdvancedNotification("Error: " + data.message, "error");
@@ -342,9 +333,9 @@ const ManagerDashboard = () => {
 
       if (response.ok) {
         showAdvancedNotification(`Leave request ${action}ed successfully`, "success");
-        // Refresh leave requests
+
         fetchLeaveRequests();
-        // Refresh employees to update leave taken stats
+
         fetchEmployees();
       } else {
         showAdvancedNotification("Error: " + data.message, "error");
@@ -369,9 +360,9 @@ const ManagerDashboard = () => {
 
       if (response.ok) {
         showAdvancedNotification(`Overtime request ${action}ed successfully`, "success");
-        // Refresh overtime requests
+
         fetchOvertimeRequests();
-        // Refresh employees to update overtime stats
+
         fetchEmployees();
       } else {
         showAdvancedNotification("Error: " + data.message, "error");
@@ -393,7 +384,7 @@ const ManagerDashboard = () => {
 
       if (response.ok) {
         showAdvancedNotification("Task status updated successfully", "success");
-        // Refresh employees to show updated tasks
+
         fetchEmployees();
       } else {
         showAdvancedNotification("Error updating task status", "error");
@@ -405,7 +396,7 @@ const ManagerDashboard = () => {
 
   const handleLogout = () => {
     showAdvancedNotification("Logging out...", "info");
-    // Clear user data from localStorage
+
     localStorage.removeItem("employeeData");
     setTimeout(() => {
       navigate("/login");
