@@ -1,15 +1,12 @@
 const Employee = require('../models/Employee.model')
 
-// Function to generate report based on employee metrics
 const generateEmployeeReport = employee => {
   const { workedHours, performanceScore, totalLeaveTaken, overtimeApproved } =
     employee
 
-  // Define rating thresholds
   let rating = ''
   let reportTemplate = ''
 
-  // Determine rating based on metrics
   if (
     performanceScore >= 90 &&
     workedHours >= 160 &&
@@ -43,7 +40,6 @@ Overall Rating: Unsatisfactory`
   }
 }
 
-// Update report for a single employee
 const updateEmployeeReport = async (req, res) => {
   try {
     const { id } = req.params
@@ -74,7 +70,6 @@ const updateEmployeeReport = async (req, res) => {
   }
 }
 
-// Update reports for all employees
 const updateAllEmployeesReports = async (req, res) => {
   try {
     const employees = await Employee.find({})
@@ -99,7 +94,6 @@ const updateAllEmployeesReports = async (req, res) => {
   }
 }
 
-// Get report analysis for an employee
 const getEmployeeReportAnalysis = async (req, res) => {
   try {
     const { id } = req.params

@@ -41,7 +41,6 @@ const getEmployeeById = async (req, res) => {
   }
 }
 
-// New controller to get employee report by ID
 const getEmployeeReportById = async (req, res) => {
   try {
     const { id } = req.params

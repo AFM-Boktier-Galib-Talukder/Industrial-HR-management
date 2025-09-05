@@ -5,13 +5,11 @@ const assignTask = async (req, res) => {
   try {
     const { employeeId, tasks } = req.body
 
-    // Check if employee exists
     const employee = await Employee.findById(employeeId)
     if (!employee) {
       return res.status(404).json({ message: 'Employee not found' })
     }
 
-    // Create tasks for the employee
     const taskPromises = tasks.map(task => {
       const newTask = new Task({
         employeeId,
@@ -65,7 +63,6 @@ const updateTaskStatus = async (req, res) => {
     const { id } = req.params
     const { status } = req.body
 
-    // Validate status
     if (!['pending', 'in-progress', 'completed'].includes(status)) {
       return res.status(400).json({
         message: "Status must be 'pending', 'in-progress', or 'completed'",

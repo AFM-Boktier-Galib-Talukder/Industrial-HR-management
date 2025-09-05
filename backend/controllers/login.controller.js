@@ -4,7 +4,6 @@ const login = async (req, res) => {
   try {
     const { email, phone } = req.body
 
-    // Validate input
     if (!email || !phone) {
       return res.status(400).json({
         success: false,
@@ -12,11 +11,10 @@ const login = async (req, res) => {
       })
     }
 
-    // Find employee by email and phone
     const employee = await Employee.findOne({
       email: email.toLowerCase().trim(),
       phone: phone.trim(),
-    }).select('-__v') // Exclude version field
+    }).select('-__v')
 
     if (!employee) {
       return res.status(401).json({
@@ -25,7 +23,6 @@ const login = async (req, res) => {
       })
     }
 
-    // Determine dashboard route based on employment type
     let redirectTo
     switch (employee.employmentType) {
       case 'Admin':
@@ -52,7 +49,7 @@ const login = async (req, res) => {
         email: employee.email,
         phone: employee.phone,
         employmentType: employee.employmentType,
-        officeLocation: employee.officeLocation || 'New York Office', // Default if not set
+        officeLocation: employee.officeLocation || 'New York Office',
         position: employee.position || 'Employee',
       },
     })

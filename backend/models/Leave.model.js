@@ -52,7 +52,6 @@ const leaveSchema = new mongoose.Schema(
   }
 )
 
-// Validate that end date is after start date
 leaveSchema.pre('save', function (next) {
   if (this.endDate <= this.startDate) {
     next(new Error('End date must be after start date'))

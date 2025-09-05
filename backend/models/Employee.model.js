@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 
 const employeeSchema = new mongoose.Schema(
   {
-    // Personal Details
     firstName: {
       type: String,
       required: true,
@@ -62,7 +61,6 @@ const employeeSchema = new mongoose.Schema(
       default: Date.now,
     },
 
-    // New fields
     workedHours: {
       type: Number,
       default: 0,
@@ -70,15 +68,13 @@ const employeeSchema = new mongoose.Schema(
       max: 168,
     },
 
-    // Report as a long string (5+ sentences)
     report: {
       type: String,
       trim: true,
       maxlength: 2000,
-      default: 'Good', // Increased length for 5+ sentences
+      default: 'Good',
     },
 
-    // Shift with simplified enum
     shift: {
       type: String,
       enum: ['day', 'night'],
@@ -96,7 +92,6 @@ const employeeSchema = new mongoose.Schema(
       },
     },
 
-    // Newly added fields
     totalLeaveTaken: {
       type: Number,
       default: 0,
@@ -117,18 +112,16 @@ const employeeSchema = new mongoose.Schema(
       },
     },
 
-    // Field for tracking the last check-in time
     lastCheckIn: {
       type: Date,
       default: null,
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt automatically
+    timestamps: true,
   }
 )
 
-// Create model from schema
 const Employee = mongoose.model('Employee', employeeSchema)
 
 module.exports = Employee

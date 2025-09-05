@@ -4,7 +4,6 @@ const updatePerformanceScore = async (req, res) => {
   try {
     const { employeeId, performanceScore } = req.body
 
-    // Validate performance score
     if (
       performanceScore < 0 ||
       performanceScore > 100 ||

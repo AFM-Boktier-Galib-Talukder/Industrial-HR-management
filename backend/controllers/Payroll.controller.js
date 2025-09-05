@@ -9,20 +9,15 @@ const calculatePayroll = async (req, res) => {
       return res.status(404).json({ message: 'Employee not found' })
     }
 
-    // Store original values for response
     const oldSalary = employee.salary
     const hoursWorked = employee.workedHours
 
-    // Define the standard number of working hours in a month
-    const standardMonthlyHours = 20 * 8 // 160 hours
+    const standardMonthlyHours = 20 * 8
 
-    // Calculate the new monthly salary based on the proportion of hours worked
     const newMonthlySalary = (hoursWorked / standardMonthlyHours) * oldSalary
 
-    // Update the employee's salary to the newly calculated value
     employee.salary = newMonthlySalary
 
-    // Reset worked hours for the next pay period
     employee.workedHours = 0
     await employee.save()
 

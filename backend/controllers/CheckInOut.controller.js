@@ -1,6 +1,5 @@
 const Employee = require('../models/Employee.model')
 
-// Controller for employee check-in
 const checkIn = async (req, res) => {
   try {
     const { employeeId } = req.body
@@ -10,7 +9,6 @@ const checkIn = async (req, res) => {
       return res.status(404).json({ message: 'Employee not found' })
     }
 
-    // Store check-in time
     employee.lastCheckIn = new Date()
     await employee.save()
 
@@ -26,7 +24,6 @@ const checkIn = async (req, res) => {
   }
 }
 
-// Controller for employee check-out
 const checkOut = async (req, res) => {
   try {
     const { employeeId } = req.body
@@ -44,18 +41,16 @@ const checkOut = async (req, res) => {
     const timeDifferenceInMinutes =
       (checkOutTime - employee.lastCheckIn) / (1000 * 60)
 
-    // Prevent checkout within the first minute
     if (timeDifferenceInMinutes < 1) {
       return res.status(400).json({
         message: 'You cannot check out within one minute of checking in.',
       })
     }
 
-    const hoursWorked = timeDifferenceInMinutes / 60 // Convert minutes to hours
+    const hoursWorked = timeDifferenceInMinutes / 60
 
-    // Update worked hours
     employee.workedHours += hoursWorked
-    employee.lastCheckIn = null // Reset check-in time
+    employee.lastCheckIn = null
     await employee.save()
 
     res.status(200).json({

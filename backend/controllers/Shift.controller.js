@@ -4,7 +4,6 @@ const updateShift = async (req, res) => {
   try {
     const { employeeId, shift } = req.body
 
-    // Validate shift
     if (!['day', 'night'].includes(shift)) {
       return res.status(400).json({
         message: "Shift must be either 'day' or 'night'",

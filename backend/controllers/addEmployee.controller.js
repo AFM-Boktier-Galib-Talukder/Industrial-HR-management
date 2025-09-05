@@ -16,7 +16,6 @@ const addEmployee = async (req, res) => {
       shift,
     } = req.body
 
-    // Check if employee with email already exists
     const existingEmployee = await Employee.findOne({ email })
     if (existingEmployee) {
       return res
@@ -24,7 +23,6 @@ const addEmployee = async (req, res) => {
         .json({ message: 'Employee with this email already exists' })
     }
 
-    // Create new employee
     const newEmployee = new Employee({
       firstName,
       lastName,

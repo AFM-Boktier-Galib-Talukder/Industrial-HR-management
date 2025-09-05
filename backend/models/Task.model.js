@@ -37,7 +37,6 @@ const taskSchema = new mongoose.Schema(
   }
 )
 
-// Validate that deadline is in the future
 taskSchema.pre('save', function (next) {
   if (this.deadline <= new Date()) {
     next(new Error('Deadline must be in the future'))
